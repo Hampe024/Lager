@@ -1,9 +1,13 @@
 import { useEffect, useState } from 'react';
-import { Stylesheet, Text, View } from 'react-native';
+import { Image, Text, View, ScrollView } from 'react-native';
 import config from "../config/config.json";
+import warehouse from '../assets/warehouse.jpg';
+
+
+
 
 function StockList() {
-  const [products, setProducts] = useState([]);
+  
 
   useEffect(() => {
     fetch(`${config.base_url}/products?api_key=${config.api_key}`)
@@ -21,16 +25,18 @@ function StockList() {
     );
   }
 
-  
-  export default function Stock() {
+
+export default function Stock({products, setProducts}) {
   return (
-      <View>
-      <Text style={styles.title}>Lagerförteckning</Text>
-      <StockList/>
-    </View>
+      <ScrollView style={styles.base}>
+          <Text style={styles.header}>Lager-Appen</Text>
+          <Image source={warehouse} style={styles.img} />
+          <Text style={styles.title}>Lagerförteckning</Text>
+          <Stock products={products} setProducts={setProducts} />
+          <StockList/>
+      </ScrollView>
   );
 }
-
 const styles = {
     stockStyle: {
         backgroundColor: '#d9dbde',
@@ -45,5 +51,10 @@ const styles = {
         fontSize: 24,
         marginTop: 20,
         marginBottom: 20,
+    },
+    img: {
+      width: 350,
+      height: 240
     }
 };
+
